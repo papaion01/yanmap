@@ -7,7 +7,7 @@ function init() {
             controls: ['zoomControl']
         },
         ButtonLayout = ymaps.templateLayoutFactory.createClass(
-            "<div class='d-block card' id='infoPanel' style='display:block'> " +
+            "<div class='d-flex card' style='left: 5%;top: 100px;width: 25%;border-radius: 4px;font-family: Arial;position: absolute;background: #353d42;z-index: 10;box-shadow: 0 0 6px #666;z-index: 55; id='infoPanel'    > " +
             "{{data.content}}" +
             "<ul class='card-title'>" +
             "<li class='card-title' id='schoolCity'>" +
@@ -497,7 +497,6 @@ function init() {
 
         for (var i = 0, l = this.oms.length; i < l; i++) {
             var om = this.oms[i];
-
             om.objects.each(function (p) {
                 if (p.properties.CATO.toLowerCase().indexOf(request.toLowerCase()) != -1 || p.properties.Name.toLowerCase().indexOf(request.toLowerCase()) != -1) {
                     points.push(p);
@@ -540,6 +539,5 @@ function init() {
 
         // Возвращаем объект-обещание.
         return deferred.promise();
-
     }
 }
