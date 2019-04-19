@@ -10,7 +10,6 @@ function init() {
             "<div class='d-block card' id='infoPanel' style='display:block'> " +
             "{{data.content}}" +
             "<ul class='card-title'>" +
-            
             "<li class='card-title' id='schoolCity'>" +
             "</li>" +
             "<li class='card-title' id='schoolName'>" +
