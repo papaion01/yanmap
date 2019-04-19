@@ -7,8 +7,17 @@ function init() {
             controls: ['zoomControl']
         },
         ButtonLayout = ymaps.templateLayoutFactory.createClass(
-            "<div class=my-button>" +
+            "<div class=panel panel-default ml-1 bg-info> " +
             "{{data.content}}" +
+            "</br>" +
+            "<ul>" +
+            "<li id=schoolCity>" +
+            "</li>" +
+            "<li id=schoolName>" +
+            "</li>" +
+            "<li id=schoolAddress>" +
+            "</li>" +
+            "</ul>" +
             "</div>"
         ),
         button = new ymaps.control.Button({
@@ -21,14 +30,14 @@ function init() {
         }));
 
     ListBoxLayout = ymaps.templateLayoutFactory.createClass(
-            "<button id='my-listbox-header' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>" +
+            "<button id='my-listbox-header' class='btn btn-default ml-1' data-toggle='dropdown'>" +
             "{{data.title}} <span class='caret'></span>" +
             "</button>" +
             // Этот элемент будет служить контейнером для элементов списка.
             // В зависимости от того, свернут или развернут список, этот контейнер будет
             // скрываться или показываться вместе с дочерними элементами.
             "<ul id='my-listbox'" +
-            " class='dropdown-menu' role='menu' aria-labelledby='dropdownMenu'" +
+            " class='dropdown-menu ml-2' role='menu' aria-labelledby='dropdownMenu'" +
             " style='display: {% if state.expanded %}block{% else %}none{% endif %};'></ul>", {
 
                 build: function () {
@@ -65,11 +74,11 @@ function init() {
             "<li><a>{{data.name}}</a></li>"
         ),
         ListBoxLayout1 = ymaps.templateLayoutFactory.createClass(
-            "<button id='city-listbox-header' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>" +
+            "<button id='city-listbox-header' class='btn btn-default ' data-toggle='dropdown'>" +
             "{{data.title}} <span class='caret'></span>" +
             "</button>" +
             "<ul id='city-listbox'" +
-            " class='dropdown-menu' role='menu' aria-labelledby='dropdownMenu'" +
+            " class='ml-2 mt-5 dropdown-menu' role='menu' aria-labelledby='dropdownMenu'" +
             " style='display: {% if state.expanded %}block{% else %}none{% endif %};'></ul>", {
 
                 build: function () {
@@ -95,7 +104,7 @@ function init() {
             }),
 
         ListBoxItemLayout1 = ymaps.templateLayoutFactory.createClass(
-            "<li><a>{{data.name}}</a></li>"
+            "<li class=ml-1><a>{{data.name}}</a></li>"
         ),
         listBoxItems = [
             new ymaps.control.ListBoxItem({
@@ -340,35 +349,6 @@ function init() {
         });
 
 
-    listBox = new ymaps.control.ListBox({
-        items: listBoxItems,
-        data: {
-            title: 'Выберите область'
-        },
-        options: {
-            // С помощью опций можно задать как макет непосредственно для списка,
-            layout: ListBoxLayout,
-            // так и макет для дочерних элементов списка. Для задания опций дочерних
-            // элементов через родительский элемент необходимо добавлять префикс
-            // 'item' к названиям опций.
-            itemLayout: ListBoxItemLayout
-        }
-    });
-
-    listBox1 = new ymaps.control.ListBox({
-        items: listBoxItems1,
-        data: {
-            title: 'Выберите город'
-        },
-        options: {
-            // С помощью опций можно задать как макет непосредственно для списка,
-            layout: ListBoxLayout1,
-            // так и макет для дочерних элементов списка. Для задания опций дочерних
-            // элементов через родительский элемент необходимо добавлять префикс
-            // 'item' к названиям опций.
-            itemLayout: ListBoxItemLayout1
-        }
-    });
 
     listBox.events.add('click', function (e) {
         // Получаем ссылку на объект, по которому кликнули.
@@ -427,9 +407,17 @@ function init() {
         }
     });
 
-    map.controls.add(listBox);
+    map.controls.add(button,{
+        float:'left'
+    });
 
-    map.controls.add(listBox1);
+    map.controls.add(listBox, {
+        float:'left'
+    });
+
+    map.controls.add(listBox1,{
+        float:'left'
+    });
 
     $.ajax({
         url: "response.json"
@@ -477,19 +465,16 @@ function init() {
     function onObjectClick(e) {
         // objectId – идентификатор объекта, на котором произошло событие.
         var objectId = e.get('objectId'),
-            object = objectManager.objects.getById(objectId);
+            object = iconObjectManager.objects.getById(objectId);
         // Выведем информацию об объекте.
         document.getElementById("schoolName").innerHTML = object.properties.Name;
-        document.getElementById("schoolPower").innerHTML = object.properties.CATO;
-        document.getElementById("schoolCapacity").innerHTML = object.properties.Address;
+        document.getElementById("schoolCity").innerHTML = object.properties.CATO;
+        document.getElementById("schoolAddress").innerHTML = object.properties.Address;
+        console.log(object.properties.Name)
     }
 
-    objectManager.objects.events.add(['click'], onObjectClick);
+    iconObjectManager.objects.events.add(['click'], onObjectClick);
 
-    map.controls
-        .add(button, {
-            float: 'left'
-        });
     // Провайдер данных для элемента управления ymaps.control.SearchControl.
     // Осуществляет поиск геообъектов в по массиву points.
     // Реализует интерфейс IGeocodeProvider.

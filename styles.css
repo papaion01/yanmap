@@ -16,13 +16,9 @@ a:hover {
     color: #f50000; /* Цвет ссылки при наведении на нее курсора мыши */
 }
 
-#FilterPane{
-    width: 15%;
-    height: 15%;
-    background-color: #EAEAEA;
-}
 
-.infoPane{
-    background-color: turquoise;
-    color: white;
-}
+ul {
+    list-style: none; /* Remove list bullets */
+    padding: 0;
+    margin: 0;
+  }
