@@ -3,7 +3,7 @@ ymaps.ready(init);
 function init() {
     var map = new ymaps.Map('map', {
             center: [49, 70],
-            zoom: 5,
+            zoom: 6,
             controls: ['zoomControl']
         },
         ButtonLayout = ymaps.templateLayoutFactory.createClass(
