@@ -204,108 +204,6 @@ function init() {
         });
 
 
-
-    var listBoxItems = [
-        new ymaps.control.ListBoxItem({
-            data: {
-                name: 'Акмолинская область',
-                center: [51.785262, 69.908818],
-                zoom: 9,
-            }
-        }),
-        new ymaps.control.ListBoxItem({
-            data: {
-                name: 'Актюбинская область',
-                center: [48.605970, 58.593710],
-                zoom: 9,
-            }
-        }),
-        new ymaps.control.ListBoxItem({
-            data: {
-                name: 'Алматинская область',
-                center: [44.548301, 77.474240],
-                zoom: 9,
-            }
-        }),
-        new ymaps.control.ListBoxItem({
-            data: {
-                name: 'Атырауская область',
-                center: [47.490698, 52.093519],
-                zoom: 9,
-            }
-        }),
-        new ymaps.control.ListBoxItem({
-            data: {
-                name: 'Восточно-Казахстанская область',
-                center: [48.793012, 81.488910],
-                zoom: 9,
-            }
-        }),
-        new ymaps.control.ListBoxItem({
-            data: {
-                name: 'Жамбылская область',
-                center: [44.311975, 72.138463],
-                zoom: 9,
-            }
-        }),
-        new ymaps.control.ListBoxItem({
-            data: {
-                name: 'Западно-Казахстанская область',
-                center: [49.813556, 50.675447],
-                zoom: 9,
-            }
-        }),
-        new ymaps.control.ListBoxItem({
-            data: {
-                name: 'Карагандинская область',
-                center: [48.219942, 70.978720],
-                zoom: 9,
-            }
-        }),
-        new ymaps.control.ListBoxItem({
-            data: {
-                name: 'Костанайская область',
-                center: [51.602478, 64.015555],
-                zoom: 9,
-            }
-        }),
-        new ymaps.control.ListBoxItem({
-            data: {
-                name: 'Кызылординская область',
-                center: [44.571371, 65.794929],
-                zoom: 9,
-            }
-        }),
-        new ymaps.control.ListBoxItem({
-            data: {
-                name: 'Мангистауская область',
-                center: [44.122553, 53.722021],
-                zoom: 9,
-            }
-        }),
-        new ymaps.control.ListBoxItem({
-            data: {
-                name: 'Павлодарская область',
-                center: [52.068494, 76.242551],
-                zoom: 9,
-            }
-        }),
-        new ymaps.control.ListBoxItem({
-            data: {
-                name: 'Северо-Казахстанская область',
-                center: [53.668040, 67.982794],
-                zoom: 9,
-            }
-        }),
-        new ymaps.control.ListBoxItem({
-            data: {
-                name: 'Туркестанская область',
-                center: [44.294764, 68.676347],
-                zoom: 9,
-            }
-        })
-    ]
-
     listBox = new ymaps.control.ListBox({
         items: listBoxItems,
         data: {
@@ -388,69 +286,64 @@ function init() {
     objectManager.objects.events.add(['click'], onObjectClick);
 
     /*map.controls
-        .add(button, {
-            float: 'left'
-        });*/
+            .add(button, {
+                float: 'left'
+            });*/
     // Провайдер данных для элемента управления ymaps.control.SearchControl.
     // Осуществляет поиск геообъектов в по массиву points.
     // Реализует интерфейс IGeocodeProvider.
-    function CustomSearchProvider(oms) {
-        this.oms = oms;
-    }
-
-    // Провайдер ищет по полю text стандартным методом String.ptototype.indexOf.
-    CustomSearchProvider.prototype.geocode = function (request, options) {
-        var deferred = new ymaps.vow.defer();
-        var geoObjects = new ymaps.GeoObjectCollection();
-        var offset = options.skip || 0;
-        var limit = options.results || 20;
-        var points = [];
-
-        for (var i = 0, l = this.oms.length; i < l; i++) {
-            var om = this.oms[i];
-
-            om.objects.each(function (p) {
-                if (p.properties.CATO.toLowerCase().indexOf(request.toLowerCase()) != -1 || p.properties.Name.toLowerCase().indexOf(request.toLowerCase()) != -1) {
-                    points.push(p);
+    class CustomSearchProvider {
+        constructor(oms) {
+            this.oms = oms;
+        }
+        // Провайдер ищет по полю text стандартным методом String.ptototype.indexOf.
+        geocode(request, options) {
+            var deferred = new ymaps.vow.defer();
+            var geoObjects = new ymaps.GeoObjectCollection();
+            var offset = options.skip || 0;
+            var limit = options.results || 20;
+            var points = [];
+            for (var i = 0, l = this.oms.length; i < l; i++) {
+                var om = this.oms[i];
+                om.objects.each(function (p) {
+                    if (p.properties.CATO.toLowerCase().indexOf(request.toLowerCase()) != -1 || p.properties.Name.toLowerCase().indexOf(request.toLowerCase()) != -1) {
+                        points.push(p);
+                    }
+                });
+            }
+            // При формировании ответа можно учитывать offset и limit.
+            points = points.splice(offset, limit);
+            // Добавляем точки в результирующую коллекцию.
+            for (i = 0, l = points.length; i < l; i++) {
+                var point = points[i];
+                var coords = point.geometry.coordinates;
+                var name = point.properties.Name;
+                var city = point.properties.CATO;
+                geoObjects.add(new ymaps.Placemark(coords, {
+                    name: name + ', ' + city,
+                    boundedBy: [coords, coords]
+                }));
+            }
+            deferred.resolve({
+                // Геообъекты поисковой выдачи.
+                geoObjects: geoObjects,
+                // Метаинформация ответа.
+                metaData: {
+                    geocoder: {
+                        // Строка обработанного запроса.
+                        request: request,
+                        // Количество найденных результатов.
+                        found: geoObjects.getLength(),
+                        // Количество возвращенных результатов.
+                        results: limit,
+                        // Количество пропущенных результатов.
+                        skip: offset
+                    }
                 }
             });
+            // Возвращаем объект-обещание.
+            return deferred.promise();
         }
-        // При формировании ответа можно учитывать offset и limit.
-        points = points.splice(offset, limit);
-
-        // Добавляем точки в результирующую коллекцию.
-        for (i = 0, l = points.length; i < l; i++) {
-            var point = points[i];
-            var coords = point.geometry.coordinates;
-            var name = point.properties.Name;
-            var city = point.properties.CATO;
-
-            geoObjects.add(new ymaps.Placemark(coords, {
-                name: name + ', ' + city,
-                boundedBy: [coords, coords]
-            }));
-        }
-
-        deferred.resolve({
-            // Геообъекты поисковой выдачи.
-            geoObjects: geoObjects,
-            // Метаинформация ответа.
-            metaData: {
-                geocoder: {
-                    // Строка обработанного запроса.
-                    request: request,
-                    // Количество найденных результатов.
-                    found: geoObjects.getLength(),
-                    // Количество возвращенных результатов.
-                    results: limit,
-                    // Количество пропущенных результатов.
-                    skip: offset
-                }
-            }
-        });
-
-        // Возвращаем объект-обещание.
-        return deferred.promise();
-
     }
+
 }

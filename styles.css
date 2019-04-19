@@ -18,18 +18,10 @@ a:hover {
     background-color: #EAEAEA;
 }
 
-#map {
-    width: 70%;
-    height: 70%;
-}
 
-.my-button {
-    background-color: white;
-    width: 20%;
-    height: 100%;
-}
 
-.paneText{
+.infoPane{
     background-color: turquoise;
     color: white;
+    display: inline-block;
 }
