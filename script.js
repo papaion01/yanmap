@@ -7,7 +7,7 @@ function init() {
             controls: ['zoomControl']
         },
         ButtonLayout = ymaps.templateLayoutFactory.createClass(
-            "<div class='d-flex card' style='left: 5%;top: 100px;width: 25%;border-radius: 4px;font-family: Arial;position: absolute;background: #353d42;z-index: 10;box-shadow: 0 0 6px #666;z-index: 55; id='infoPanel'    > " +
+            "<div class='d-flex card' id='infoPanel'    > " +
             "{{data.content}}" +
             "<ul class='card-title'>" +
             "<li class='card-title' id='schoolCity'>" +
@@ -470,11 +470,11 @@ function init() {
             object = iconObjectManager.objects.getById(objectId);
         // Выведем информацию об объекте.
         // document.getElementById("topic").innerHTML = 'Информация о школе';
-        document.getElementById("schoolName").innerHTML = object.properties.Name;
-        document.getElementById("schoolCity").innerHTML = object.properties.CATO;
-        document.getElementById("schoolAddress").innerHTML = object.properties.Address;
+        document.getElementById("schoolName").innerHTML = "Название школы " + object.properties.Name;
+        document.getElementById("schoolCity").innerHTML = "Город школы " + object.properties.CATO;
+        document.getElementById("schoolAddress").innerHTML = "Адрес школы " + object.properties.Address;
         var element = document.getElementById("infoPanel");
-        element.classList.add('bg-info');
+        element.classList.add('infoPane');
         console.log(object.properties.Name)
     }
 

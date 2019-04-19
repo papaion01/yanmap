@@ -22,3 +22,7 @@ ul {
     padding: 0;
     margin: 0;
   }
+
+.infoPane{
+    left: 5%;top: 100px;width: 25%;border-radius: 4px;font-family: Arial;position: absolute;background: #353d42;z-index: 10;box-shadow: 0 0 6px #666;z-index: 55;
+}
