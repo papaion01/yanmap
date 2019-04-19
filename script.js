@@ -7,7 +7,7 @@ function init() {
             controls: ['zoomControl']
         },
         ButtonLayout = ymaps.templateLayoutFactory.createClass(
-            "<div class='d-block card' id='infoPanel' style='display:block'> " +
+            "<div class='d-block card' id='infoPanel'> " +
             "{{data.content}}" +
             "<ul class='card-title'>" +
             "<li class='card-title' id='schoolCity'>" +
