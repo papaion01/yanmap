@@ -10,8 +10,7 @@ function init() {
             "<div class='d-block card' id='infoPanel' style='display:block'> " +
             "{{data.content}}" +
             "<ul class='card-title'>" +
-            "<li id=topic>" +
-            "</li>" +
+            
             "<li class='card-title' id='schoolCity'>" +
             "</li>" +
             "<li class='card-title' id='schoolName'>" +
@@ -471,7 +470,7 @@ function init() {
         var objectId = e.get('objectId'),
             object = iconObjectManager.objects.getById(objectId);
         // Выведем информацию об объекте.
-        document.getElementById("topic").innerHTML = 'Информация о школе';
+        // document.getElementById("topic").innerHTML = 'Информация о школе';
         document.getElementById("schoolName").innerHTML = object.properties.Name;
         document.getElementById("schoolCity").innerHTML = object.properties.CATO;
         document.getElementById("schoolAddress").innerHTML = object.properties.Address;
