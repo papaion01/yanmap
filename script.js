@@ -7,7 +7,7 @@ function init() {
             controls: ['zoomControl']
         },
         ButtonLayout = ymaps.templateLayoutFactory.createClass(
-            "<div class='d-block card' id='infoPanel'> " +
+            "<div class='d-block card' id='infoPanel' style='display:block'> " +
             "{{data.content}}" +
             "<ul class='card-title'>" +
             "<li class='card-title' id='schoolCity'>" +
@@ -474,7 +474,7 @@ function init() {
         document.getElementById("schoolCity").innerHTML = object.properties.CATO;
         document.getElementById("schoolAddress").innerHTML = object.properties.Address;
         var element = document.getElementById("infoPanel");
-        classList.add('bg-info');
+        element.classList.add('bg-info');
         console.log(object.properties.Name)
     }
 
