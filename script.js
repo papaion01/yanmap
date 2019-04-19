@@ -29,7 +29,7 @@ function init() {
         }));
 
     ListBoxLayout = ymaps.templateLayoutFactory.createClass(
-            "<button id='my-listbox-header' style='display:block' class='d-block btn btn-default  style='display:block' data-toggle='dropdown'>" +
+            "<button id='my-listbox-header' style='display:block;left:5%;' class='d-block btn btn-default  style='display:block' data-toggle='dropdown'>" +
             "{{data.title}} <span class='caret'></span>" +
             "</button>" +
             // Этот элемент будет служить контейнером для элементов списка.
@@ -73,7 +73,7 @@ function init() {
             "<li><a>{{data.name}}</a></li>"
         ),
         ListBoxLayout1 = ymaps.templateLayoutFactory.createClass(
-            "<button id='city-listbox-header' class='d-block btn btn-default  style='display:block' data-toggle='dropdown'>" +
+            "<button id='city-listbox-header' class='d-block btn btn-default  style='display:block;left:5%;' data-toggle='dropdown'>" +
             "{{data.title}} <span class='caret'></span>" +
             "</button>" +
             // Этот элемент будет служить контейнером для элементов списка.
@@ -470,9 +470,9 @@ function init() {
             object = iconObjectManager.objects.getById(objectId);
         // Выведем информацию об объекте.
         // document.getElementById("topic").innerHTML = 'Информация о школе';
-        document.getElementById("schoolName").innerHTML = "Название школы " + object.properties.Name;
-        document.getElementById("schoolCity").innerHTML = "Город школы " + object.properties.CATO;
-        document.getElementById("schoolAddress").innerHTML = "Адрес школы " + object.properties.Address;
+        document.getElementById("schoolName").innerHTML = "Название школы: " + object.properties.Name;
+        document.getElementById("schoolCity").innerHTML = "Город школы: " + object.properties.CATO;
+        document.getElementById("schoolAddress").innerHTML = "Адрес школы: " + object.properties.Address;
         var element = document.getElementById("infoPanel");
         element.classList.add('infoPane');
         console.log(object.properties.Name)
