@@ -7,22 +7,23 @@ function init() {
             controls: ['zoomControl']
         },
         ButtonLayout = ymaps.templateLayoutFactory.createClass(
-            "<div class=panel panel-default ml-1 bg-info> " +
+            "<div class='d-block card' id='infoPanel' style='display:block'> " +
             "{{data.content}}" +
-            "</br>" +
-            "<ul>" +
-            "<li id=schoolCity>" +
+            "<ul class='card-title'>" +
+            "<li id=topic>" +
             "</li>" +
-            "<li id=schoolName>" +
+            "<li class='card-title' id='schoolCity'>" +
             "</li>" +
-            "<li id=schoolAddress>" +
+            "<li class='card-title' id='schoolName'>" +
+            "</li>" +
+            "<li class='card-title' id='schoolAddress'>" +
             "</li>" +
             "</ul>" +
             "</div>"
         ),
         button = new ymaps.control.Button({
             data: {
-                content: "Информация о школе"
+                content: ""
             },
             options: {
                 layout: ButtonLayout
@@ -30,14 +31,14 @@ function init() {
         }));
 
     ListBoxLayout = ymaps.templateLayoutFactory.createClass(
-            "<button id='my-listbox-header' class='btn btn-default ml-1' data-toggle='dropdown'>" +
+            "<button id='my-listbox-header' style='display:block' class='d-block btn btn-default  style='display:block' data-toggle='dropdown'>" +
             "{{data.title}} <span class='caret'></span>" +
             "</button>" +
             // Этот элемент будет служить контейнером для элементов списка.
             // В зависимости от того, свернут или развернут список, этот контейнер будет
             // скрываться или показываться вместе с дочерними элементами.
             "<ul id='my-listbox'" +
-            " class='dropdown-menu ml-2' role='menu' aria-labelledby='dropdownMenu'" +
+            " class='ml-1 dropdown-menu' role='menu' aria-labelledby='dropdownMenu'" +
             " style='display: {% if state.expanded %}block{% else %}none{% endif %};'></ul>", {
 
                 build: function () {
@@ -74,11 +75,14 @@ function init() {
             "<li><a>{{data.name}}</a></li>"
         ),
         ListBoxLayout1 = ymaps.templateLayoutFactory.createClass(
-            "<button id='city-listbox-header' class='btn btn-default ' data-toggle='dropdown'>" +
+            "<button id='city-listbox-header' class='d-block btn btn-default  style='display:block' data-toggle='dropdown'>" +
             "{{data.title}} <span class='caret'></span>" +
             "</button>" +
+            // Этот элемент будет служить контейнером для элементов списка.
+            // В зависимости от того, свернут или развернут список, этот контейнер будет
+            // скрываться или показываться вместе с дочерними элементами.
             "<ul id='city-listbox'" +
-            " class='ml-2 mt-5 dropdown-menu' role='menu' aria-labelledby='dropdownMenu'" +
+            " class='mt-5 ml-3 dropdown-menu' role='menu' aria-labelledby='dropdownMenu'" +
             " style='display: {% if state.expanded %}block{% else %}none{% endif %};'></ul>", {
 
                 build: function () {
@@ -104,9 +108,9 @@ function init() {
             }),
 
         ListBoxItemLayout1 = ymaps.templateLayoutFactory.createClass(
-            "<li class=ml-1><a>{{data.name}}</a></li>"
+            "<li><a>{{data.name}}</a></li>"
         ),
-        listBoxItems = [
+        listBoxItems1 = [
             new ymaps.control.ListBoxItem({
                 data: {
                     name: 'Акмолинская область',
@@ -206,7 +210,7 @@ function init() {
                 }
             })
         ],
-        listBoxItems1 = [
+        listBoxItems = [
             new ymaps.control.ListBoxItem({
                 data: {
                     name: "Астана",
@@ -330,7 +334,7 @@ function init() {
         listBox = new ymaps.control.ListBox({
             items: listBoxItems,
             data: {
-                title: 'Выберите область'
+                title: 'Выберите город'
             },
             options: {
                 layout: ListBoxLayout,
@@ -340,7 +344,7 @@ function init() {
         listBox1 = new ymaps.control.ListBox({
             items: listBoxItems1,
             data: {
-                title: 'Выберите город'
+                title: 'Выберите область'
             },
             options: {
                 layout: ListBoxLayout1,
@@ -467,9 +471,12 @@ function init() {
         var objectId = e.get('objectId'),
             object = iconObjectManager.objects.getById(objectId);
         // Выведем информацию об объекте.
+        document.getElementById("topic").innerHTML = 'Информация о школе';
         document.getElementById("schoolName").innerHTML = object.properties.Name;
         document.getElementById("schoolCity").innerHTML = object.properties.CATO;
         document.getElementById("schoolAddress").innerHTML = object.properties.Address;
+        var element = document.getElementById("infoPanel");
+        classList.add('bg-info');
         console.log(object.properties.Name)
     }
 
