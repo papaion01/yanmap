@@ -4,7 +4,7 @@ function init() {
     var map = new ymaps.Map('map', {
             center: [49, 70],
             zoom: 6,
-            controls: ['zoomControl']
+            controls: []
         },
         ButtonLayout = ymaps.templateLayoutFactory.createClass(
             "<div class='d-flex card' id='infoPanel'    > " +

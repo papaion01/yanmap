@@ -24,5 +24,14 @@ ul {
   }
 
 .infoPane{
-    left: 5%;top: 100px;width: 25%;font-family: Arial;position: absolute;background:403a37;z: 10;box-shadow: 0 0 6px #666;z-index: 55;
+    left: 15px;
+    top: 100px;
+    width: 25%;
+    font-family: Arial;
+    position: absolute;
+    color: #000;
+    background:#FFDB4D;
+    z: 10;
+    box-shadow: 0 0 6px #666;
+    z-index: 55;
 }
