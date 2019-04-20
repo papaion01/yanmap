@@ -7,13 +7,12 @@ function init() {
             controls: []
         },
         ButtonLayout = ymaps.templateLayoutFactory.createClass(
-            "<div class='d-flex card' style='display:none' id='infoPanel'> " +
+            "<div class='invisible d-flex card' id='infoPanel'> " +
             "<h3 class='card-header' id='topic'>" +
             "{{ data.content }}"+
             "</h3>" +
             "<div class='card-body'"+
             "<h5 class='class-title'>" +
-            
             "</h5>" +
             "<ul'>" +
             "<li class='card-title' id='schoolCity'>" +
@@ -24,8 +23,16 @@ function init() {
             "</li>" +
             "</ul>" +
             "</div>" +
+            "<button onClick='(closeWindow());' class='btn btn-info' href='#'>"+
+            "Закрыть панель"+
+            "</button>"+
             "</div>"
         ),
+        closeWindow = function(){
+            var elem = document.getElementById('infoPanel');
+            elem.classList.remove('infoPane');
+            elem.classList.add('invisible');
+        },
         button = new ymaps.control.Button({
             data: {
                 content: "Карта школ Казахстана"
@@ -482,6 +489,8 @@ function init() {
         document.getElementById("schoolAddress").innerHTML = "Адрес школы: " + object.properties.Address;
         var element = document.getElementById("infoPanel");
         element.classList.add('infoPane');
+        element.classList.remove('invisible');
+        element.classList.add('visible');
     }
 
     iconObjectManager.objects.events.add(['click'], onObjectClick);
